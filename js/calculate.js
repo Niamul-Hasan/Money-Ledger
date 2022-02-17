@@ -3,27 +3,34 @@ document.getElementById('calculate').addEventListener('click', function () {
     // getting income 
     const incomeInput = document.getElementById('income');
     const incomeAmount = parseFloat(incomeInput.value);
-    if (incomeAmount < 0) {
-        getErrorMassege();
-    }
     //getting rent cost
     const rentinput = document.getElementById('rent');
-    const rentAmount = parseFloat(rentinput.value);
+    const rentValue = rentinput.value;
+    const rentAmount = parseFloat(rentValue);
     //getting food cost
     const foodInput = document.getElementById('food');
-    const foodAmount = parseFloat(foodInput.value);
+    const foodValue = foodInput.value;
+    const foodAmount = parseFloat(foodValue);
     //getting cloth cost
     const clothInput = document.getElementById('cloth');
-    const clothAmount = parseFloat(clothInput.value);
+    const clothValue = clothInput.value;
+    const clothAmount = parseFloat(clothValue);
+    //checking error and return error message
+    if (rentAmount < 0 || foodAmount < 0 || clothAmount < 0 || incomeAmount < 0) {
+        getErrorMessage();
+    }
+    if (isNaN(rentAmount) || isNaN(foodAmount) || isNaN(clothAmount) || isNaN(incomeAmount)) {
+        getErrorMessage();
+    }
 
-    if (typeof rentAmount == 'number' && typeof foodAmount == 'number' && typeof clothAmount == 'number' && typeof incomeAmount == 'number' && incomeAmount >= 0 && rentAmount >= 0 && foodAmount >= 0 && clothAmount >= 0) {
+    if (incomeAmount >= 0 && rentAmount >= 0 && foodAmount >= 0 && clothAmount >= 0) {
         // Calculate total expense
         const totalExpense = rentAmount + foodAmount + clothAmount;
         if (totalExpense > incomeAmount) {
             getBalanceError();
         }
 
-        if (totalExpense < incomeAmount) {
+        if (totalExpense <= incomeAmount) {
             //update Total Expense in html
             const expenseField = document.getElementById('expense');
             expenseField.innerText = totalExpense;
@@ -33,18 +40,8 @@ document.getElementById('calculate').addEventListener('click', function () {
             balanceField.innerText = balanceAfterExpense;
             noError();
         }
-        else {
-            getErrorMassege();
-        }
 
     }
-    if (rentAmount < 0 || foodAmount < 0 || clothAmount < 0) {
-        getErrorMassege();
-    }
-    if (typeof rentAmount != 'number' || typeof foodAmount != 'number' || typeof clothAmount != 'number') {
-        getErrorMassege();
-    }
-
 
 })
 
@@ -72,12 +69,12 @@ function getSavingAndUpdateBalance(fieldId) {
         noError();
     }
     else {
-        getErrorMassege();
+        getErrorMessage();
     }
 }
 
-//function for error massege
-function getErrorMassege() {
+//function for error message
+function getErrorMessage() {
     document.getElementById('error').style.display = 'block';
 }
 function noError() {
