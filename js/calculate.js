@@ -47,26 +47,37 @@ document.getElementById('calculate').addEventListener('click', function () {
 
 //bonous part of saving amount
 document.getElementById('save').addEventListener('click', function () {
-    getSavingAndUpdateBalance('balance')
+    getSavingAndUpdateBalance('income', 'balance')
 })
 
-function getSavingAndUpdateBalance(fieldId) {
+function getSavingAndUpdateBalance(income, balance) {
+    // getting main income amount 
+    const incomeInput = document.getElementById(income);
+    const incomeAmount = parseFloat(incomeInput.value);
     //getting remaning balance after expence
-    const balanceField = document.getElementById(fieldId).innerText;
+    const balanceField = document.getElementById(balance).innerText;
     const balanceAmount = parseFloat(balanceField);
     //getting parcentage value from input field
     const savingInput = document.getElementById('save-input');
     const savingParcentageValue = savingInput.value;
+
     //updating saving Amount field in html
     if (parseFloat(savingParcentageValue) > 0 && typeof parseFloat(savingParcentageValue) == 'number' && parseFloat(savingParcentageValue) <= 100) {
-        const savingAmount = balanceAmount * parseFloat(savingParcentageValue) / 100;
+        const savingAmount = incomeAmount * parseFloat(savingParcentageValue) / 100;
         const savingField = document.getElementById("saving-amount");
-        savingField.innerText = savingAmount;
+
         //updating remaining balance field after expense and saving
         const remainingBalanceField = document.getElementById('remaining-balance');
         const balanceAfterSaving = balanceAmount - savingAmount;
-        remainingBalanceField.innerText = balanceAfterSaving;
-        noError();
+        // checking is the saving valid or not 
+        if (balanceAfterSaving < 0) {
+            getSavingError();
+        }
+        else {
+            savingField.innerText = savingAmount;
+            remainingBalanceField.innerText = balanceAfterSaving;
+            noError();
+        }
     }
     else {
         getErrorMessage();
@@ -77,12 +88,15 @@ function getSavingAndUpdateBalance(fieldId) {
 function getErrorMessage() {
     document.getElementById('error').style.display = 'block';
 }
+
+function getBalanceError() {
+    document.getElementById('balance-error').style.display = 'block'
+}
+function getSavingError() {
+    document.getElementById('saving-error').style.display = 'block';
+}
 function noError() {
     document.getElementById('error').style.display = 'none';
     document.getElementById('balance-error').style.display = 'none'
-
-
-}
-function getBalanceError() {
-    document.getElementById('balance-error').style.display = 'block'
+    document.getElementById('saving-error').style.display = 'none';
 }
