@@ -3,9 +3,15 @@
 }
 .icon{
     display:inline;
-    width: 40px;
-    height: 35px;
+    width: 30px;
+    height: 25px;
 }
-h2{
+.text{
     display: inline;
+}
+.error{
+    display: none;
+    color: rgb(228, 22, 22);
+    font-size: medium;
+    font-weight: 700;
 }
