@@ -16,14 +16,14 @@ document.getElementById('calculate').addEventListener('click', function () {
     const clothInput = document.getElementById('cloth');
     const clothAmount = parseFloat(clothInput.value);
 
-    if (typeof rentAmount == 'number' && typeof foodAmount == 'number' && typeof clothAmount == 'number' && typeof incomeAmount == 'number' && incomeAmount > 0 && rentAmount >= 0 && foodAmount >= 0 && clothAmount >= 0) {
+    if (typeof rentAmount == 'number' && typeof foodAmount == 'number' && typeof clothAmount == 'number' && typeof incomeAmount == 'number' && incomeAmount >= 0 && rentAmount >= 0 && foodAmount >= 0 && clothAmount >= 0) {
         // Calculate total expense
         const totalExpense = rentAmount + foodAmount + clothAmount;
         if (totalExpense > incomeAmount) {
-            getErrorMassege();
+            getBalanceError();
         }
 
-        else {
+        if (totalExpense < incomeAmount) {
             //update Total Expense in html
             const expenseField = document.getElementById('expense');
             expenseField.innerText = totalExpense;
@@ -33,9 +33,15 @@ document.getElementById('calculate').addEventListener('click', function () {
             balanceField.innerText = balanceAfterExpense;
             noError();
         }
+        else {
+            getErrorMassege();
+        }
 
     }
     if (rentAmount < 0 || foodAmount < 0 || clothAmount < 0) {
+        getErrorMassege();
+    }
+    if (typeof rentAmount != 'number' || typeof foodAmount != 'number' || typeof clothAmount != 'number') {
         getErrorMassege();
     }
 
@@ -76,5 +82,10 @@ function getErrorMassege() {
 }
 function noError() {
     document.getElementById('error').style.display = 'none';
+    document.getElementById('balance-error').style.display = 'none'
 
+
+}
+function getBalanceError() {
+    document.getElementById('balance-error').style.display = 'block'
 }
